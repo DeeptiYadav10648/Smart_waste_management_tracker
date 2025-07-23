@@ -1,54 +1,3 @@
-# 🗑️ Smart Waste Management Tracker
-
-A full-stack web application designed to promote cleaner communities through waste tracking, overflow alerts, user feedback, and gamified incentives. Built with Flask, Socket.IO, and modern front-end interactivity.
-
----
-
-## 🚀 Features
-
-- 📊 **Live Bin Status** with real-time updates
-- ⚠️ **Overflow Alerts** to notify when bins exceed capacity
-- 📍 **Nearby Bin Locator** via geolocation
-- 🧠 **Mood-Based Feedback Modal** for collecting user insights
-- 🔐 **User Login System** with token rewards
-- 🎮 **Dashboard** with eco points and engagement tools
-- 🌌 **Stylized Neon UI** with grid-pattern background and themed icons
-
----
-
-## 🧰 Tech Stack
-
-| Layer        | Technologies Used               |
-|--------------|---------------------------------|
-| Frontend     | HTML, CSS, JavaScript           |
-| Realtime     | Socket.IO, Eventlet             |
-| Backend      | Python, Flask, Flask-SocketIO   |
-| Auth & State | Flask-Login                     |
-| Location     | Geolocation API, Flask Routes   |
-
----
-
-smart-waste-tracker/
-├── static/
-│   └── style.css
-├── templates/
-│   ├── index.html
-│   ├── login.html
-│   └── dashboard.html
-├── app.py
-├── requirements.txt
-└── README.md
-
-
-## 📦 Installation & Setup
-
-1. **Clone the repo:**
-
-   ```bash
-   git clone https://github.com/your-username/smart-waste-tracker.git
-   cd smart-waste-tracker
-
-Absolutely, Deepti! Here's a complete and well-structured README.md file for your Smart Waste Management Tracker project. It highlights your vision, features, tech stack, setup steps, and contribution guidelines — all designed to make the project welcoming and impactful 🌿
 
 📄 README.md
 # 🗑️ Smart Waste Management Tracker
@@ -68,6 +17,16 @@ A full-stack web application designed to promote cleaner communities through was
 - 🌌 **Stylized Neon UI** with grid-pattern background and themed icons
 
 ---
+smart-waste-tracker/
+├── static/
+│   └── style.css
+├── templates/
+│   ├── index.html
+│   ├── login.html
+│   └── dashboard.html
+├── app.py
+├── requirements.txt
+└── README.md
 
 ## 🧰 Tech Stack
 
@@ -81,6 +40,8 @@ A full-stack web application designed to promote cleaner communities through was
 
 ---
 
+
+
 ## 📦 Installation & Setup
 
 1. **Clone the repo:**
@@ -91,13 +52,15 @@ A full-stack web application designed to promote cleaner communities through was
 
 
 2  - Install dependencies:
-
-pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
+```
 
 
 3 - Run the app:
+```bash
 python app.py
-
+```
 4 - Access the app.
 
 5 - Open http://localhost:5000 in your browser.
