@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Waste Tracker</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Smart📧  Waste🗑️ Management Tracker</h1>
+    <section class="hero">
+    <h2>🌍😀 Let’s Build a Cleaner World Together 🤞</h2>
+    <p>Track waste, educate communities, and earn rewards for your impact. Because small actions lead to big change.</p>
+    </section>
+    <div id="bin-status">🔃Loading bin data...</div>
+    <button onclick="checkOverflow()">☑️Check Overflow</button>
+    <button onclick="locateBins()">☑️Find Nearby Bins</button>
+    <button onclick="showFeedback()">☑️Give Feedback</button>
+    <div id="feedbackModal" style="display:none;">
+      <textarea id="feedbackText" placeholder="Share your suggestions..."></textarea>
+      <button onclick="submitFeedback()">Submit</button>
+    </div>
+    <div id="feedbackModal" style="display:none;">
+  <label for="feedbackMood">Your Mood:</label>
+  <select id="feedbackMood">
+    <option value="Happy">😊 Happy</option>
+    <option value="Neutral">😐 Neutral</option>
+    <option value="Frustrated">😔 Frustrated</option>
+  </select>
+
+  <label for="feedbackText">Your Feedback:</label>
+  <textarea id="feedbackText" placeholder="Share your thoughts..."></textarea>
+
+  <button onclick="submitFeedback()">Send Feedback</button>
+</div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+  <script>
+    const socket = io();
+   socket.on('bin_update', data => {
+  const output = data.map(bin => `
+    <li>
+      <i class="bi bi-trash-fill"></i> 
+      <strong>${bin.location}</strong>: 
+      <span style="color: ${bin.fillLevel >= 90 ? 'red' : bin.fillLevel >= 70 ? 'orange' : 'green'};">
+        ${bin.fillLevel}% full
+      </span>
+    </li>
+  `).join('');
+  document.getElementById('bin-status').innerHTML = `
+    <h3>🗑 Bin Status</h3>
+    <ul>${output}</ul>
+  `;
+});
+
+    function checkOverflow() {
+    fetch('/check_overflow')
+      .then(res => res.json())
+      .then(data => {
+        if (data.length > 0) {
+          alert(`⚠️ Overflow at: ${data.map(b => b.location).join(', ')}`);
+        } else {
+          alert("✅ No overflow bins currently.");
+        }
+      });
+  }
+
+
+    function locateBins() {
+      navigator.geolocation.getCurrentPosition(pos => {
+        fetch('/nearby_bins', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(`🗺️ Nearby Bins:\n${data.map(b => `${b.location}: ${b.fillLevel}%`).join('\n')}`);
+        });
+      });
+    }
+
+    function showFeedback() {
+      document.getElementById('feedbackModal').style.display = 'block';
+    }
+
+    function submitFeedback() {
+      const feedback = document.getElementById('feedbackText').value;
+      fetch('/submit_feedback', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ feedback })
+      }).then(() => alert('Thanks for your input!'));
+    }
+  </script>
+</body>
+</html>
